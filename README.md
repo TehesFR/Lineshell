@@ -6,3 +6,5 @@ You can use the Lineshell Docker container, packed with everything you need, at 
 This container will pulled sources from the master branch of this repository.
 
 ============================
+
+![Lineshell](https://www.lineshell.io/static/lineshell-logo.png "Lineshell")
