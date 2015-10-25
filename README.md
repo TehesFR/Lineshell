@@ -1,4 +1,4 @@
-# Lineshell
+# Lineshell [![Build Status](https://travis-ci.org/TehesFR/Lineshell.svg?branch=master)](https://travis-ci.org/TehesFR/Lineshell)
 
 Lineshell is an open source project to organize and manage servers, based on Node.js and Mongodb. 
 
