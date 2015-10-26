@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+	<title>Lineshell - Execution timeout</title>
+	<meta name="description" content="Execution timeout">
+	<% include header %>
+</head>
+<body>
+	<% include navbar %>
+
+	<div class="alert alert-danger">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>Execution failed!</strong> Timeout was reached during the execution. Please consider to switch to a higher plan if you need to increase the execution timeout.
+	</div>
+
+	<% include footer %>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('#execute').addClass("active");
+	});
+	</script>
+</body>
+</html>

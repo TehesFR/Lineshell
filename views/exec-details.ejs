@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+<head>
+	<title>Lineshell - Execution details</title>
+	<meta name="description" content="Execution details">
+	<% include header %>
+</head>
+<body>
+	<% include navbar %>
+
+	<% if (execution[0].executionDetails.groupName !== undefined){ %>
+		<div class="alert alert-success">
+		    <a href="#" class="close" data-dismiss="alert">&times;</a>
+		    The script <a href="/scripts"><b><i><%= execution[0].executionDetails.scriptName %></i></b></a> was executed on group <a href="/groups"><b><i><%= execution[0].executionDetails.groupName %></i></b></a> on <b><i><%= moment.tz(execution[0].executionDetails.created_at, timezone).format('L LTS')%></i></b> with the results below.
+		</div>
+	<% } %>
+
+	<% if (execution[0].executionDetails.serverName !== undefined){ %>
+		<div class="alert alert-success">
+		    <a href="#" class="close" data-dismiss="alert">&times;</a>
+		    The script <a href="/scripts"><b><i><%= execution[0].executionDetails.scriptName %></i></b></a> was executed on server <a href="/servers"><b><i><%= execution[0].executionDetails.serverName %></i></b></a> on <b><i><%= moment.tz(execution[0].executionDetails.created_at, timezone).format('L LTS')%></i></b> with the results below.
+		</div>
+	<% } %>
+
+	<% if (execution[0].executionDetails.withArgs == "true"){ %>
+		<div class="alert alert-warning">
+		    <a href="#" class="close" data-dismiss="alert">&times;</a>
+		    <strong>This script was executed with arguments!</strong> <%= execution[0].executionDetails.matches %> <strong>replaced by</strong> <%= execution[0].executionDetails.tabArgs %>.
+		</div>
+	<% } %>
+
+	<% if (execution[0].executionDetails.notes != ""){ %>
+		<div class="alert alert-info">
+		    <a href="#" class="close" data-dismiss="alert">&times;</a>
+		    <strong>Execution notes : </strong>  <%= execution[0].executionDetails.notes %>.
+		</div>
+	<% } %>
+
+	<div class="container">
+
+	<% for (var i = 0; i < serverNameArray.length; i++) { %>
+
+		<div class="container">
+			<div class="panel-group" id="accordion">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#<%=i%>">
+								<span class="fa fa-hdd-o"></span>
+								<%= serverNameArray[i] %>
+							</a>
+						</h4>
+					</div>
+					<div id="<%=i%>" class="panel-collapse collapse in">
+						<div class="panel-body">
+							<div class="form-group">
+								<% if (stdoutArray !== undefined){ %>
+									<% if (stdoutArray[i] !== ""){ %>
+										<button type="button" class="btn btn-success btn-xs">stdout</button>
+										<textarea class="form-control" rows="18" id="scriptResults" name="scriptResults" readonly="readonly"><%= stdoutArray[i]%></textarea>
+									<% } %>
+								<% } %>
+								<br>
+								<% if (stderrArray !== undefined){ %>
+									<% if (stderrArray[i] !== ""){ %>
+										<button type="button" class="btn btn-warning btn-xs">stderr</button>
+										<textarea class="form-control" rows="12" id="scriptResultsErr" name="scriptResultsErr" readonly="readonly"><%= stderrArray[i]%></textarea>
+									<% } %>
+								<% } %>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<% } %>
+
+	</div>
+
+	<% include footer %>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('#execute').addClass("active");
+	});
+	</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!-- addGroupModal large-->
+	<form action="/newgroup" method="post">
+		<div class="modal fade" id="addGroupModal" tabindex="-1" role="dialog" aria-labelledby="addGroupModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Add a new group</h4>
+			  </div>
+			  <div class="modal-body">
+				<form class="form-horizontal">
+				<fieldset>
+					<input id="userId" name="userId" type="hidden" class="form-control input-md" value="<%= user._id %>">
+					<div class="form-group">
+					  <label class="col-md-4 control-label" for="groupName">Group name</label>
+					  <input id="groupName" name="groupName" type="text" placeholder="my group" class="form-control-modal input-md" required="">
+					  <span class="help-block"><i>The name of your group. Must be unique.</i></span>
+					</div>
+					<div class="form-group">
+					  <label class="col-md-4 control-label" for="groupDesc">Group description</label>
+					  <input id="groupDesc" name="groupDesc" type="text" placeholder="my group description" class="form-control-modal input-md" required="">
+					  <span class="help-block"><i>A description for your group.</i></span>
+					</div>
+				</fieldset>
+				</form>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="submit" class="btn btn-primary">Add this group</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	</form>
+<!-- end modal -->
+<script type="text/javascript">
+$('#addGroupModal').on('shown.bs.modal', function() {
+	$(this).find('#groupName').focus();
+});
+</script>

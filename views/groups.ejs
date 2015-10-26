@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+	<title>Lineshell - Groups</title>
+	<meta name="description" content="Groups">
+	<% include header %>
+</head>
+	<body>
+		<% include navbar %>
+
+
+		<div class="container">
+
+			<h1><span class="fa fa-hdd-o"></span> Groups details <i class="fa fa-question-circle fa-1x" style="color:#eee;" data-trigger="hover" data-placement="bottom" data-toggle="popover" title="Hint!" data-content="You can add an unlimited number of groups to organize your servers, and run executions on them. To prevent any issue, you can delete a group only if it does not contain any server."></i> <button type="button" class="btn btn-info " data-toggle="modal" data-target="#addGroupModal"><span class="fa fa-plus"></span> Add a group</button></h1>
+			<h5>Organize servers for execution and management.</h5>
+
+			<div class="text-right">
+						<span class="label label-primary">Groups : <%= myGroups.length %> of unlimited</span>
+			</div>
+
+			<br>
+			<%if (myGroups.length < 1) { %>
+				<p>You need to add a group first.</p>
+			<% } %>
+
+			<%if (myGroups.length > 0) { %>
+			<div class="row">
+
+			<table id ="groupTable" class="table table-striped table-hover table-bordered table-condensed tablesorter">
+				<thead>
+					<tr>
+						<th>Name <span class="fa fa-sort"></span></th>
+						<th>Description <span class="fa fa-sort"></span></th>
+						<th>Added <span class="fa fa-sort"></span></th>
+						<th>Added By <span class="fa fa-sort"></span></th>
+						<th>Number of servers <span class="fa fa-sort"></span></th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% myGroups.forEach(function(group, index) { %>
+						<tr id="<%= group._id %>">
+							<td>
+								<%= group.groupDetails.groupName %></li>
+							</td>
+							<td><%= group.groupDetails.groupDesc %></td>
+							<td><%= moment.tz(group.groupDetails.created_at, timezone).format('L LTS') %></td>
+							<% if (user.local.email == undefined){ %>
+								<% if (user.google.email == undefined){ %>
+									<% if (user.facebook.email == undefined){ %>
+										<% if (user.twitter.username == undefined){ %>
+											<td>undefined</td>
+											<% }else{ %>
+												<td><%= user.twitter.username %></td>
+											<% } %>
+										<% }else{ %>
+											<td><%= user.facebook.email %></td>
+										<% } %>
+								<% }else{ %>
+									<td><%= user.google.email %></td>
+								<% } %>
+							<% }else{ %>
+								<td><%= user.local.email %></td>
+							<% } %>
+							<% count=0; myServers.forEach(function(server, index) {
+
+								if (server.serverDetails.serverGroups != undefined){
+									var servGroupsArray = server.serverDetails.serverGroups.split(",");
+									servGroupsArray.forEach(function(groupid, index) {
+										if (group._id == groupid)
+										count++;
+									});
+								};
+							}); %>
+							<td><%= count %> server(s)</td>
+							<td>
+								<button type="button" class=" btn btn-default btn-sm" data-toggle="modal" data-target="#editGroupModal" data-name-id="<%= group.groupDetails.groupName %>" data-desc-id="<%= group.groupDetails.groupDesc %>" data-group-id="<%= group._id %>"><span class="fa fa-pencil"></span></button>
+								<button type="button" class=" btn btn-default btn-sm" data-toggle="modal" data-target="#deleteGroupModal" data-count-id ="<%= count %>" data-name-id="<%= group.groupDetails.groupName %>" data-group-id="<%= group._id %>"><span class="fa fa-times"></span></button>
+							</td>
+						</tr>
+						<% }); %>
+					</tbody>
+				</table>
+
+			<% } %>
+
+		</div>
+
+		<% include ./modals/addGroupModal %>
+		<% include ./modals/editGroupModal %>
+		<% include ./modals/deleteGroupModal %>
+
+		<% include footer %>
+		<script type="text/javascript">
+		        $(document).ready(function() {
+		            $('#groupsmenu').addClass("active");
+								$("#groupTable").tablesorter({sortList: [[0,0]]});
+								$('[data-toggle="popover"]').popover();
+		        });
+		</script>
+		<script type="text/javascript">
+		        //triggered when modal is about to be shown
+				$('#editGroupModal').on('show.bs.modal', function(e) {
+
+				    //get data-id attribute of the clicked element
+					var groupName        = $(e.relatedTarget).data('name-id');
+					var groupDesc        = $(e.relatedTarget).data('desc-id');
+				  var groupId          = $(e.relatedTarget).data('group-id');
+
+				    //populate the textbox
+				    $(e.currentTarget).find('input[name="groupName"]').val(groupName);
+				    $(e.currentTarget).find('input[name="groupDesc"]').val(groupDesc);
+					  $(e.currentTarget).find('input[name="groupId"]').val(groupId);
+
+				});
+
+		</script>
+		<script type="text/javascript">
+		        //triggered when modal is about to be shown
+				$('#deleteGroupModal').on('show.bs.modal', function(e) {
+
+				    //get data-id attribute of the clicked element
+					var groupName        = $(e.relatedTarget).data('name-id');
+				  var groupId          = $(e.relatedTarget).data('group-id');
+					var count            = $(e.relatedTarget).data('count-id');
+
+				    //populate the textbox
+				  $(e.currentTarget).find('input[name="groupName"]').val(groupName);
+					$(e.currentTarget).find('input[name="groupId"]').val(groupId);
+					$(e.currentTarget).find('input[name="count"]').val(count);
+
+					if (count > 0){
+						$(e.currentTarget).find('button[name="submit"]').hide();
+					}
+					if (count == 0){
+						$(e.currentTarget).find('button[name="submit"]').show();
+					}
+				});
+
+		</script>
+	</body>
+</html>

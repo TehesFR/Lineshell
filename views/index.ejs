@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+	<title>Lineshell - Manage, execute, track</title>
+	<meta name="description" content="Web based SSH platform for sysadmins and devops to manage servers.">
+	<% include header %>
+</head>
+<body style="padding-top: 50px;">
+
+	<% include index-navbar %>
+
+	<div class="home-login-panel">
+		<div class="text-center" style="padding-top: 5px; padding: 25px;">
+			<img src="static/lineshell-logo.png" alt="logo" height="120" width="610">
+			<p class="text-warning" style="font-size: 24px; padding-top:25px;"><b>Manage servers. Execute scripts. Keep history.</b></p>
+
+			<a href="/login" class="btn btn-primary"><span class="fa fa-user"></span> Login to your account</a>
+			<a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Create an account</a>
+		</div><br>
+	</div>
+
+	<div id="why-div" class="text-center container why big-title-colored">
+				<div class="row">
+					<div class="col-md-6">
+						<header>
+							<h1 style="padding-top: 70px;"><i class="fa fa-code fa-1x"></i> Why Lineshell</h1>
+							<h3>Save time, save money</h3>
+						</header>
+		        <div class="col-md-4">
+		          <i id="fa-home" class="fa fa-wrench fa-4x"></i>
+		          <p><b>Get ready quickly</b></p>
+		          <p>No external dependencies, nothing to install. Just <strong>native SSH with strong authentication keys</strong>. More efficient, more secure.</p>
+		        </div>
+		        <div class="col-md-4">
+		          <i id="fa-home" class="fa fa-signal fa-4x"></i>
+		          <p><b>Improve productivity</b></p>
+		          <p><strong>Run distributed commands on servers and group of servers.</strong> Install, check, patch and update multiple servers in seconds.</p>
+		        </div>
+		        <div class="col-md-4">
+		          <i id="fa-home" class="fa fa-bars fa-4x"></i>
+		          <p><b>Keep track of everything</b></p>
+		          <p><strong>Track everything.</strong> Check your past executions results, check and know who executed what, when, where, and why.</p>
+		        </div>
+		    	</div>
+					<div class="col-md-6">
+						<div id="slides" style="padding-top:20px;">
+							<img src="/static/slider/dashboard.png" alt="improve sysadmin productivity" style="border-radius:6px; opacity:0.9;">
+							<img src="/static/slider/servers.png" alt="manage servers" style="border-radius:6px; opacity:0.9;">
+							<img src="/static/slider/exec.png" alt="execute distributed commands" style="border-radius:6px; opacity:0.9;">
+							<img src="/static/slider/scripts.png" alt="create your scripts" style="border-radius:6px; opacity:0.9;">
+							<a href="#" class="slidesjs-previous slidesjs-navigation"><i class="fa fa-chevron-left"></i></a>
+							<a href="#" class="slidesjs-next slidesjs-navigation"><i class="fa fa-chevron-right"></i></a>
+						</div>
+					</div>
+				</div>
+	</div>
+
+	<div id="features-div" class="text-center container features big-title">
+	      <header>
+	          <h1 style="padding-top: 70px;"><i class="fa fa-list fa-1x"></i> Features</h1>
+						<h3>Powerful SSH platform through your browser</h3>
+	      </header>
+				<div class="row">
+	          <div class="col-md-4">
+	            <i id="fa-home" class="fa fa-hdd-o fa-4x"></i>
+	            <p><b>Servers</b></p>
+	            <p>Add and tag servers. <strong>Servers</strong> can be any desktop or virtualized/cloud Linux instances. It just needs <strong>sshd</strong>, and you should be able to interact with it.</p>
+	          </div>
+	          <div class="col-md-4">
+	            <i id="fa-home" class="fa fa-cubes fa-4x"></i>
+	            <p><b>Groups</b></p>
+	            <p><strong>Manage servers.</strong> Groups are a simple way to organize servers. You may choose to create groups based on location, OS, role, service, etc...</p>
+	          </div>
+	          <div class="col-md-4">
+	            <i id="fa-home" class="fa fa-play fa-4x"></i>
+	            <p><b>Executions</b></p>
+	            <p><strong>Run</strong> scripts on groups of servers and visualize results. Results are stored forever in your account. <strong>Execution timeout</strong> up to 30 minutes.</p>
+	          </div>
+				</div>
+				<div class="row">
+	        	<div class="col-md-4">
+	            <i id="fa-home" class="fa fa-pencil fa-4x"></i>
+	            <p><b>Scripts</b></p>
+	            <p>Scripts are containers of <strong>code</strong> written in shell or bash, <strong>allowing arguments</strong>. You can execute scripts on an individual server or on a group of servers.</p>
+	          </div>
+						<div class="col-md-4">
+							<i id="fa-home" class="fa fa-key fa-4x"></i>
+							<p><b>SSH keys</b></p>
+							<p>SSH authentication keys are <strong>4096 bits RSA encrypted.</strong> Private keys are stored securely and never accessible by users.</p>
+						</div>
+						<div class="col-md-4">
+	            <i id="fa-home" class="fa fa-code fa-4x"></i>
+	            <p><b>More features</b></p>
+							<p>This tool is <strong>still in development</strong>, and more features are planned. Feel free to contribute or ask anything on my <a href="https://github.com/TehesFR/Lineshell" target="_blank"><strong>Github</strong></a>.</p>
+	          </div>
+				</div>
+	</div>
+
+<% include footer %>
+
+	<script src="/static/jquery.slides.min.js"></script>
+	<script>
+    $(function(){
+      $("#slides").slidesjs({width: 940,height: 500, navigation:{active:false, effect: "fade"}, pagination:{effect: "fade"}, play:{auto:true, interval: 10000, effect: "fade"}, effect:{fade:{speed: 1000, crossfade: true}}});
+    });
+  </script>
+
+</body>
+</html>

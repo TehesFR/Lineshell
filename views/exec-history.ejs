@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+<head>
+	<title>Lineshell - Execution history</title>
+	<meta name="description" content="Execution history">
+	<% include header %>
+</head>
+	<body>
+		<% include navbar %>
+
+
+		<div class="container">
+
+			<h1><span class="fa fa-clock-o"></span> Executions history <i class="fa fa-question-circle fa-1x" style="color:#eee;" data-trigger="hover" data-placement="bottom" data-toggle="popover" title="Hint!" data-content="You can rerun a specific execution by clicking the rerun button in the actions column. Your Lineshell account will store an unlimited number of past executions."></i></h1>
+			<h5>A full audit trail. Know who executed what script and when. Click the date to see the details of a past execution.</h5>
+
+			<div class="text-right">
+						<span class="label label-primary">Executions : <%= myExecutions.length %> of unlimited</span>
+			</div>
+
+			<%if (myExecutions.length < 1) { %>
+				<p>You need to run an execution first.</p>
+			<% } %>
+
+			<%if (myExecutions.length > 0) { %>
+			<div class="row">
+
+				<form action="/deleteselectedexec" method="post" id="formdelete">
+					<button type="submit" id="deleteSelected" name="deleteSelected" class=" btn btn-default btn-xs" <span class="fa fa-times"></span>Delete Selected</button>
+
+					<table id="execTable" class="table table-striped table-hover table-bordered table-condensed tablesorter">
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="selectall" name="selectall"></th>
+								<th>Execution date <span class="fa fa-sort"></span></th>
+								<th>Server or Group <span class="fa fa-sort"></span></th>
+								<th>Script name <span class="fa fa-sort"></span></th>
+								<th>Notes <span class="fa fa-sort"></span></th>
+								<th>Executed By <span class="fa fa-sort"></span></th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+						<% myExecutions.forEach(function(execution, index) { %>
+							<tr id="<%= execution._id %>">
+								<td><input type="checkbox" value="<%= execution._id %>" class="checkbox" id="execId" name="execId"></td>
+								<%
+									var myTime = moment.tz(execution.executionDetails.created_at, timezone).format('L LTS');
+								 %>
+								<td><a href="/exec-details?execId=<%= execution._id %>"><%= myTime %></a></li></td>
+								<% if (execution.executionDetails.serverName != undefined) { %>
+								<td><span class="fa fa-hdd-o"> <%= execution.executionDetails.serverName %> </span></td>
+								<% } %>
+								<% if (execution.executionDetails.groupName != undefined) { %>
+								<td><span class="fa fa-cubes"> <%= execution.executionDetails.groupName %> </span></td>
+								<% } %>
+								<td><%= execution.executionDetails.scriptName %></td>
+								<td><%= execution.executionDetails.notes %></td>
+								<% if (user.local.email == undefined){ %>
+									<% if (user.google.email == undefined){ %>
+										<% if (user.facebook.email == undefined){ %>
+											<% if (user.twitter.username == undefined){ %>
+												<td>undefined</td>
+												<% }else{ %>
+													<td><%= user.twitter.username %></td>
+												<% } %>
+											<% }else{ %>
+												<td><%= user.facebook.email %></td>
+											<% } %>
+									<% }else{ %>
+										<td><%= user.google.email %></td>
+									<% } %>
+								<% }else{ %>
+									<td><%= user.local.email %></td>
+								<% } %>
+								<td>
+									<% if (execution.executionDetails.groupName != undefined) { %>
+										<a href="/exec?userId=<%= user._id%>&scriptId=<%= execution.executionDetails.scriptId%>&ScriptName=<%= execution.executionDetails.scriptName.replace(/\s+/g, '+') %>&selectedList=groups&serverId=000000000000000000000000&args=0&withArgs=<%= execution.executionDetails.withArgs %>&notes=&groupId=<%= execution.executionDetails.groupId %>"><button type="button" id="btn" class=" btn btn-default btn-sm"><span class="fa fa-retweet"></span></button></a>
+									<% } %>
+									<% if (execution.executionDetails.serverName != undefined) { %>
+										<a href="/exec?userId=<%= user._id%>&scriptId=<%= execution.executionDetails.scriptId%>&ScriptName=<%= execution.executionDetails.scriptName.replace(/\s+/g, '+') %>&selectedList=servers&serverId=<%= execution.executionDetails.serverId %>&groupId=000000000000000000000000&notes=&args=0&withArgs=<%= execution.executionDetails.withArgs %>"><button type="button" id="btn" class=" btn btn-default btn-sm"><span class="fa fa-retweet"></span></button></a>
+									<% } %>
+									<button type="button" class=" btn btn-default btn-sm"  data-toggle="modal" data-target="#deleteExecModal" data-exec-id="<%= execution._id %>"><span class="fa fa-times"></span></button>
+								</td>
+							</tr>
+						<% }); %>
+						</tbody>
+					</table>
+				</form>
+			</div>
+			<% } %>
+		</div>
+
+		<% include footer %>
+		<% include ./modals/deleteExecModal %>
+		<script type="text/javascript">
+		        $(document).ready(function() {
+		            $('#execute').addClass("active");
+								$('#deleteSelected').prop('disabled', true);
+								$('#selectall').click(function(event) {  //on click
+										if(this.checked) { // check select status
+												$('.checkbox').each(function() { //loop through each checkbox
+														this.checked = true;  //select all checkboxes with class "checkbox1"
+														$('#deleteSelected').prop('disabled', false);
+												});
+										}else{
+												$('.checkbox').each(function() { //loop through each checkbox
+														this.checked = false; //deselect all checkboxes with class "checkbox1"
+														$('#deleteSelected').prop('disabled', true);
+												});
+										}
+								});
+
+								$("#execTable").tablesorter({sortList: [[1,1]],headers: {0:{sorter:false}}});
+
+								var checkboxes = $("input[type='checkbox']");
+								checkboxes.click(function() {
+									var count_checked = $("[name='execId']:checked").length;
+									if (count_checked > 0){
+										$('#deleteSelected').prop('disabled', false);
+									}else{
+										$('#deleteSelected').prop('disabled', true);
+									}
+								});
+
+								$('[data-toggle="popover"]').popover();
+
+		        });
+		</script>
+		<script type="text/javascript">
+		$('#progressbar').hide();
+			$('#btn').click(function(){
+				$('#progressbar').show();
+			});
+		</script>
+		<script type="text/javascript">
+				$('#deleteExecModal').on('show.bs.modal', function(e) {
+				  var execId = $(e.relatedTarget).data('exec-id');
+					$(e.currentTarget).find('input[name="execId"]').val(execId);
+				});
+		</script>
+	</body>
+</html>

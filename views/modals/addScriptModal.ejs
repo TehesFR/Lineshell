@@ -1,0 +1,56 @@
+	<form action="/newscript" method="post">
+		<div class="modal fade modal-fullscreen force-fullscreen" id="addScriptModal" tabindex="-1" role="dialog" aria-labelledby="addScriptModal" aria-hidden="true">
+		  <div class="modal-dialog">
+				<div class="container modal-content">
+				  <div class="modal-body">
+
+					  <input id="userId" name="userId" type="hidden" class="form-control-modal input-md" value="<%= user._id %>">
+
+					  <label class="col-md-0 control-label" for="scriptName">Script name</label>
+
+					  <input id="scriptName" name="scriptName" type="text" placeholder="my script" class="form-control-modal input-md" required="">
+					  <span class="help-block"><i>The name of your script.</i></span>
+
+
+					  <label class="col-md-0 control-label" for="scriptNotes">Script notes</label>
+
+					  <input id="scriptNotes" name="scriptNotes" type="text" placeholder="my script notes" class="form-control-modal input-md" required="">
+					  <span class="help-block"><i>Some notes for your script.</i></span>
+
+					  <label class="col-md-0 control-label" for="scriptContent"><p>Script content</p></label>
+
+						<div id="editor"></div>
+						<textarea name="scriptContent" id="scriptContent"></textarea>
+
+					</div>
+				  <div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						<button type="submit" class="btn btn-primary">Add this script</button>
+				  </div>
+				</div>
+		  </div>
+		</div>
+	</form>
+<!-- end modal -->
+<script type="text/javascript">
+$('#addScriptModal').on('shown.bs.modal', function() {
+	$(this).find('#scriptName').focus();
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.9/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+		$('#scriptContent').hide();
+		var textarea = $('#scriptContent');
+		var editor = ace.edit("editor");
+		editor.setTheme("ace/theme/tomorrow");
+		editor.getSession().setMode("ace/mode/sh");
+		editor.getSession().setValue("#!/bin/bash");
+		editor.setOptions({minLines: 47});
+		editor.setOptions({maxLines: 47});
+		editor.setOption("showPrintMargin", false);
+
+		editor.getSession().on('change', function () {
+       textarea.val(editor.getSession().getValue());
+   	});
+		textarea.val(editor.getSession().getValue());
+</script>

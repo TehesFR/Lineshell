@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+	<title>Lineshell - Execution with arguments</title>
+	<meta name="description" content="Execution with arguments">
+	<% include header %>
+</head>
+<body>
+	<% include navbar %>
+
+	<div class="container">
+
+		<div class="row">
+
+			<div class="col-sm-0">
+				<div class="well">
+					<h3><span class="fa fa-play"></span> Please choose a value for each argument below:</h3>
+
+				<form action="/exec" method="get">
+
+					<input id="userId" name="userId" type="hidden" class="form-control-modal input-md" value="<%= userId %>">
+					<input id="scriptId" name="scriptId" type="hidden" class="form-control-modal input-md" value="<%= scriptId %>">
+					<input id="serverId" name="serverId" type="hidden" class="form-control-modal input-md" value="<%= serverId %>">
+					<input id="groupId" name="groupId" type="hidden" class="form-control-modal input-md" value="<%= groupId %>">
+					<input id="selectedList" name="selectedList" type="hidden" class="form-control-modal input-md" value="<%= selectedList %>">
+					<input id="args" name="args" type="hidden" class="form-control-modal input-md" value="1">
+					<input id="withArgs" name="withArgs" type="hidden" class="form-control-modal input-md" value="true">
+					<input id="notes" name="notes" type="hidden" class="form-control-modal input-md" value="<%= notes %>">
+
+					<% if (matches.length > 0) { %>
+						<% for (i=0; i < matches.length; i++) { %>
+
+							<div class="form-group">
+							  <label class="col-md-4 control-label text-info" for="groupId"><%=i+1%>: <%= matches[i] %></label>
+							  <input id="arg" name="arg" type="text" class="form-control-modal input-md" required="">
+							</div>
+
+							<% if (i == matches.length-1){ %>
+								<input id="nbargs" name="nbargs" type="hidden" class="form-control-modal input-md" value="<%= i+1 %>">
+							<% } %>
+						<% } %>
+					<% } %>
+
+					<% if (matches.length == 0) { %>
+
+							<p><i> This execution was executed with arguments, but this script has been edited and has no arguments anymore. You can run it now. </i></p>
+
+					<% } %>
+
+				<button id="buttonSubmit" type="submit" class="btn btn-primary">Run this script with the arguments above</button>
+			</form>
+				</div>
+			</div>
+
+			<% var y = user.plan.timeout / 1000 / 60;
+				var myTimeout = Math.floor(y); %>
+
+			<div id="progress-bar" class="progress">
+				<div class="progress-bar progress-bar-striped active" role="progressbar"
+				aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+				Script is being executed, please wait. According to your plan, timeout is set to <%= myTimeout %> minutes...
+			</div>
+		</div>
+
+		</div>
+
+	</div>
+
+	<% include footer %>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('#execute').addClass("active");
+		$('#progress-bar').hide();
+			$('#buttonSubmit').click(function(){
+				$('#progress-bar').show();
+			});
+	});
+	</script>
+</body>
+</html>

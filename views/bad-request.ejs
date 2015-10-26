@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+	<title>Lineshell - Bad request!</title>
+	<meta name="description" content="Bad request">
+	<% include header %>
+</head>
+<body>
+	<% include navbar %>
+
+	<div class="alert alert-danger">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>Huh!</strong> Something went wrong or you are not authorized to do this !
+	</div>
+
+	<% include footer %>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('#execute').addClass("active");
+	});
+	</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+	<title>Lineshell - Settings</title>
+	<meta name="description" content="Settings">
+	<% include header %>
+</head>
+	<body>
+		<% include navbar %>
+
+
+		<div class="container">
+
+			<% if(message == "activated"){ %>
+				<div class="alert alert-success">
+					<a href="#" class="close" data-dismiss="alert">&times;</a>
+					2-Factor authentication has been <strong>activated</strong> on your local account. Good choice!
+				</div>
+			<% } %>
+			<% if(message == "disabled"){ %>
+				<div class="alert alert-success">
+					<a href="#" class="close" data-dismiss="alert">&times;</a>
+					2-Factor authentication has been <strong>disabled</strong> on your local account.
+				</div>
+			<% } %>
+
+		<h1><span class="fa fa-cog"></span> Settings</h1>
+		<h5>Generate SSH keys to interact with your servers. Select your timezone for a custom display of all dates on the website.</h5>
+
+			<div class="row">
+
+				<!-- SSH KEY -->
+				<div class="col-sm-0">
+					<div class="well">
+						<h3><span class="fa fa-key"></span> SSH public key</h3>
+
+						<p class="text-success">SSH keys are <b>4096</b> bits RSA encrypted.</p>
+						<% if (pubKey != undefined){%>
+						<textarea class="form-control" rows="8" id="sshKey" name="sshKey" readonly="readonly"><%= pubKey %></textarea>
+						<%}%>
+						<br>
+						<form action="/newkey" method="post">
+							<input id="userId" name="userId" type="hidden" class="form-control input-md" value="<%= user._id %>">
+							<% if (user.keys.created_at != undefined){ %>
+								<button id="buttonSubmit" type="submit" class="btn btn-warning btn-sm"><span class="fa fa-key"></span> Generate new SSH keys</button> <i>Last keys generated on :</i> <i class="text-success"><%= moment.tz(user.keys.created_at, timezone).format('L LTS') %></i>
+							<% }else{ %>
+								<button id="buttonSubmit" type="submit" class="btn btn-danger btn-sm"><span class="fa fa-key"></span> SSH keys are mandatory to use Lineshell. Please generate your keys by clicking this button!</button>
+							<% } %>
+						</form>
+						<br>
+
+						<div id="progress-bar" class="progress">
+						  <div class="progress-bar progress-bar-striped active" role="progressbar"
+						  aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+						    keys are being generated, please wait...
+						  </div>
+						</div>
+					</div>
+
+					<div class="well">
+						<h3><span class="fa fa-clock-o"></span> Timezone</h3>
+
+						<p class="text-success">Please select your timezone below.</p>
+
+						<form action="/savetimezone" method="post">
+							<input id="userId" name="userId" type="hidden" class="form-control input-md" value="<%= user._id %>">
+							<input id="myTimezone" name="myTimezone" type="hidden" class="form-control input-md" value="<%= user.settings.timezone %>">
+							<select id="timezone" name="timezone" class="form-control"></select>
+							<br>
+							<button id="buttonSubmit2" type="submit" class="btn btn-warning btn-sm"><span class="fa fa-clock-o"></span> Save my timezone</button>
+						</form>
+						<br>
+					</div>
+
+					<div class="well">
+						<% if (!gauth){ %>
+							<h3><span class="fa fa-unlock"></span> 2-Factor Authentication is not activated.</h3>
+						<% }else{ %>
+							<h3><span class="fa fa-lock"></span> 2-Factor Authentication is activated!</h3>
+						<% } %>
+
+						<p class="text-success">Keep your account secure by enabling two-factor authentication.</p> <p class="text-success">Each time you log in, you’ll be required to provide your password plus a randomly generated access code. We recommend to use Google Authenticator application on your smartphone.</p>
+
+						<% if (!gauth){ %>
+						<form action="/setup2fa" method="post">
+								<button id="buttonSubmit3" type="submit" class="btn btn-warning btn-sm"><span class="fa fa-lock"></span> Activate 2-Factor Authentication 1/2</button>
+						</form>
+						<% }else{ %>
+							<form action="/disable2fa" method="post">
+									<button type="button" class="btn btn-warning btn-sm"  data-toggle="modal" data-target="#disable2faModal"><span class="fa fa-unlock"></span> Disable 2-Factor Authentication</button>
+							</form>
+						<% } %>
+						<br>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	  <% include ./modals/disable2faModal %>
+
+		<% include footer %>
+		<script type="text/javascript">
+		        $(document).ready(function() {
+		            $('#settings').addClass("active");
+		        });
+		</script>
+		<script type="text/javascript">
+		        $('#progress-bar').hide();
+		        $('#buttonSubmit').click(function(){
+		        $('#progress-bar').show();
+		        });
+		</script>
+		<script type="text/javascript">
+		$('#timezone').timezones();
+		$('#timezone').val($('input#myTimezone').val());
+		</script>
+
+	</body>
+</html>

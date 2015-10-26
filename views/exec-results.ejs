@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+	<title>Lineshell - Execution results</title>
+	<meta name="description" content="Execution results">
+	<% include header %>
+</head>
+<body>
+	<% include navbar %>
+
+	<div class="alert alert-success">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>Success!</strong> Script has been executed in <%= duration%> seconds. Please find the results below.
+	</div>
+
+	<% if (withArgs == "true"){ %>
+		<div class="alert alert-warning">
+		    <a href="#" class="close" data-dismiss="alert">&times;</a>
+		    <strong>This script was executed with arguments!</strong>  <%= matches %> <strong>replaced by</strong> <%= tabArgs%>.
+		</div>
+	<% } %>
+
+	<% if (notes != ""){ %>
+		<div class="alert alert-info">
+		    <a href="#" class="close" data-dismiss="alert">&times;</a>
+		    <strong>Execution notes : </strong>  <%= notes %>.
+		</div>
+	<% } %>
+
+	<div class="container">
+
+<% if (Array.isArray(serverName) == false){ %>
+
+		<div class="container">
+		<div class="panel-group" id="accordion">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#1">
+							<span class="fa fa-hdd-o"></span>
+							<%= serverName %>
+						</a>
+					</h4>
+				</div>
+				<div id="1" class="panel-collapse collapse in">
+					<div class="panel-body">
+						<div class="form-group">
+							<% if (stdout != ""){ %>
+								<button type="button" class="btn btn-success btn-xs">stdout</button>
+								<textarea class="form-control" rows="18" id="scriptResults" name="scriptResults" readonly="readonly"><%= stdout%></textarea>
+							<% } %>
+							<br>
+							<% if (stderr != ""){ %>
+								<button type="button" class="btn btn-warning btn-xs">stderr</button>
+								<textarea class="form-control" rows="12" id="scriptResultsErr" name="scriptResultsErr" readonly="readonly"><%= stderr%></textarea>
+							<% } %>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		</div>
+
+<% } %>
+
+<% if (Array.isArray(serverName) == true){ %>
+
+	<% for (var i = 0; i < serverName.length; i++) { %>
+
+		<div class="container">
+			<div class="panel-group" id="accordion">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#<%=i%>">
+								<span class="fa fa-hdd-o"></span>
+								<%= serverName[i] %>
+							</a>
+						</h4>
+					</div>
+					<div id="<%=i%>" class="panel-collapse collapse in">
+						<div class="panel-body">
+							<div class="form-group">
+								<% if (stdout[i] != ""){ %>
+									<button type="button" class="btn btn-success btn-xs">stdout</button>
+									<textarea class="form-control" rows="18" id="scriptResults" name="scriptResults" readonly="readonly"><%= stdout[i]%></textarea>
+								<% } %>
+								<br>
+								<% if (stderr[i] != ""){ %>
+									<button type="button" class="btn btn-warning btn-xs">stderr</button>
+									<textarea class="form-control" rows="12" id="scriptResultsErr" name="scriptResultsErr" readonly="readonly"><%= stderr[i]%></textarea>
+								<% } %>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<% } %>
+<% } %>
+
+	</div>
+
+	<% include footer %>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('#execute').addClass("active");
+	});
+	</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+	<title>Lineshell - Setup 2-factor authentication</title>
+	<meta name="description" content="Setup two factor authentication">
+	<% include header %>
+</head>
+	<body>
+		<% include navbar %>
+
+
+		<div class="container">
+
+					<div class="well">
+						<h3><span class="fa fa-lock"></span> Scan this QR code with Google Authenticator application on your smartphone.</h3>
+
+						<img src="<%- qrImage %>"/>
+						<p>- or enter this key manually in the application -</p>
+						<b><%= key %></b>
+						<br><br>
+						<p class="text-success"> Once you have scanned the barcode, enter the 6-digit code below to activate 2-Factor Authentication on your local account.</p>
+							<form action="/verif2fa" method="post">
+								<input id="code" name="code" type="text" placeholder="123456" class="form-control-modal input-md" required="">
+								<br><br>
+								<button id="buttonSubmit4" type="submit" class="btn btn-warning btn-sm"><span class="fa fa-lock"></span> <b>Activate 2-Factor Authentication 2/2</b></button>
+							</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<% include footer %>
+		<script type="text/javascript">
+		        $(document).ready(function() {
+		            $('#settings').addClass("active");
+								$("#code").focus();
+		        });
+		</script>
+
+	</body>
+</html>

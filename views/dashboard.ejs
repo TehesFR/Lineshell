@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+<head>
+	<title>Lineshell - Dashboard</title>
+	<meta name="description" content="Dashboard">
+	<% include header %>
+</head>
+	<body>
+		<% include navbar %>
+
+		<% if (msg.msgDetails.msg != ""){ %>
+			<div class="alert alert-info">
+			    <a href="#" class="close" data-dismiss="alert">&times;</a>
+			    <%= msg.msgDetails.msg %>
+			</div>
+		<% } %>
+
+		<div class="container">
+
+		<h2 class="text-muted"><span class="fa fa-dashboard"></span> Overview</h2>
+
+			<div class="row">
+
+				<div class="col-sm-3">
+					<div class="well">
+						<h3><span class="fa fa-hdd-o"></span> <a href="/servers">Servers</a></h3>
+
+						<p>Servers can be any desktop or virtualized/cloud Linux instances. It just needs <i>sshd</i> on it, and you should be able to interact with it.</p>
+
+							<button type="button" class="btn btn-info " data-toggle="modal" data-target="#addServerModal"><span class="fa fa-plus"></span> Add a server</button> <br><b>You currently have <a href="/servers"><%= nbservs %> server(s)</a>.</b><br>
+
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<div class="well">
+						<h3><span class="fa fa-cubes"></span> <a href="/groups">Groups</a></h3>
+
+						<p>Groups are a simple way to organize servers. You may choose to create groups based on location, OS, role, service, etc...</p>
+
+							<button type="button" class="btn btn-info " data-toggle="modal" data-target="#addGroupModal"><span class="fa fa-plus"></span> Add a group</button> <br><b>You currently have <a href="/groups"><%= myGroups.length %> group(s)</a>.</b><br>
+
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<div class="well">
+						<h3><span class="fa fa-pencil"></span> <a href="/scripts">Scripts</a></h3>
+
+						<p>Scripts are containers of code written in shell or bash. You can execute scripts on an individual server or on a group of servers.</p>
+
+							<button type="button" class="btn btn-info " data-toggle="modal" data-target="#addScriptModal"><span class="fa fa-plus"></span> Add a script</button> <br><b>You currently have <a href="/scripts"><%= nbscripts %> script(s)</a>.</b><br>
+
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+					<div class="well">
+						<h3><span class="fa fa-user-secret"></span> <a href="#">Inspection (soon...)</a></h3>
+
+						<p>Display a complete report of major services running on all your servers. Identify old versions, security issues, and so on.</p>
+
+							<button id="inspectbtn" type="button" class="btn btn-info " data-toggle="modal" data-target="#"><span class="fa fa-sitemap"></span> Inspection report</button> <br>Check development status on <a href="https://github.com/TehesFR/Lineshell" target="_blank">Github</a>.<br>
+
+					</div>
+				</div>
+			</div>
+
+			<h2 class="text-muted"><span class="fa fa-rss"></span> Last runned <a href="/exec-history">executions</a></h2>
+
+			<%if (myExecutions.length < 1) { %>
+				<p>You need to run an execution first.</p>
+			<% } %>
+
+			<%if (myExecutions.length > 0) { %>
+			<div class="row">
+
+				<table id="executionsTable" class="table table-striped table-hover table-bordered table-condensed tablesorter">
+					<thead>
+						<tr>
+							<th>Execution date <span class="fa fa-sort"></span></th>
+							<th>Server or Group <span class="fa fa-sort"></span></th>
+							<th>Script name <span class="fa fa-sort"></span></th>
+							<th>Executed By <span class="fa fa-sort"></span></th>
+						</tr>
+					</thead>
+					<tbody>
+					<% myExecutions.forEach(function(execution, index) { %>
+						<tr id="<%= execution._id %>">
+							<%
+								var myTime = moment.tz(execution.executionDetails.created_at, timezone).format('L LTS');
+							 %>
+							<td><a href="/exec-details?execId=<%= execution._id %>"><%= myTime %></a></li></td>
+							<% if (execution.executionDetails.serverName != undefined) { %>
+							<td><span class="fa fa-hdd-o"> <%= execution.executionDetails.serverName %> </span></td>
+							<% } %>
+							<% if (execution.executionDetails.groupName != undefined) { %>
+							<td><span class="fa fa-cubes"> <%= execution.executionDetails.groupName %> </span></td>
+							<% } %>
+							<td><%= execution.executionDetails.scriptName %></td>
+
+							<% if (user.local.email == undefined){ %>
+								<% if (user.google.email == undefined){ %>
+									<% if (user.facebook.email == undefined){ %>
+										<% if (user.twitter.username == undefined){ %>
+											<td>undefined</td>
+											<% }else{ %>
+												<td><%= user.twitter.username %></td>
+											<% } %>
+										<% }else{ %>
+											<td><%= user.facebook.email %></td>
+										<% } %>
+								<% }else{ %>
+									<td><%= user.google.email %></td>
+								<% } %>
+							<% }else{ %>
+								<td><%= user.local.email %></td>
+							<% } %>
+						</tr>
+					<% }); %>
+					</tbody>
+				</table>
+			</div>
+			<% } %>
+
+			<h2 class="text-muted"><span class="fa fa-hdd-o"></span> Last added <a href="/servers">servers</a></h2>
+
+			<%if (myServers.length < 1) { %>
+				<p>You need to add a server first.</p>
+			<% } %>
+
+			<%if (myServers.length > 0) { %>
+			<div class="row">
+			    <table id="serversTable" class="table table-striped table-hover table-bordered table-condensed tablesorter">
+			        <thead>
+			            <tr>
+											<th>Creation date <span class="fa fa-sort"></span></th>
+											<th>Server name <span class="fa fa-sort"></span></th>
+			                <th>IP Address <span class="fa fa-sort"></span></th>
+			                <th>Tags <span class="fa fa-sort"></span></th>
+			                <th>Groups <span class="fa fa-sort"></span></th>
+			                <th>SSH </th>
+											<th>Added by <span class="fa fa-sort"></span></th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			        <% myServers.forEach(function(server, index) { %>
+			            <tr>
+											<td><%= moment.tz(server.serverDetails.created_at,timezone).format('L LTS') %></td>
+			                <td><%= server.serverDetails.serverName %></td>
+			                <td><%= server.serverDetails.serverAddress %></td>
+			                <td><%= server.serverDetails.serverTags %></td>
+			                <% if (server.serverDetails.serverGroups != undefined){
+			                   var servGroupsArray = server.serverDetails.serverGroups.split(","); %>
+				                <% var groupNames = "" %>
+					                <% servGroupsArray.forEach(function(groupid, index) { %>
+					                	<% myGroups.forEach(function(mygroup, index) { %>
+					                		<% if (mygroup._id == groupid)
+					                		groupNames = groupNames + "," + mygroup.groupDetails.groupName; %>
+					                	<% }); %>
+				    				<% }); %>
+				    			<% groupNames = groupNames.substring(1);
+				    		}%>
+			                <td><%= groupNames %></td>
+											<% if (server.serverDetails.sshStatus == true){ %>
+			                	<td><span class="fa fa-check" style="color:#419641"></span></td>
+											<% } %>
+											<% if (server.serverDetails.sshStatus == false){ %>
+												<td><span class="fa fa-times" style="color:#C12E2A"></span></td>
+											<% }; %>
+											<% if (user.local.email == undefined){ %>
+												<% if (user.google.email == undefined){ %>
+													<% if (user.facebook.email == undefined){ %>
+														<% if (user.twitter.username == undefined){ %>
+															<td>undefined</td>
+															<% }else{ %>
+																<td><%= user.twitter.username %></td>
+															<% } %>
+														<% }else{ %>
+															<td><%= user.facebook.email %></td>
+														<% } %>
+												<% }else{ %>
+													<td><%= user.google.email %></td>
+												<% } %>
+											<% }else{ %>
+												<td><%= user.local.email %></td>
+											<% } %>
+			            </tr>
+			        <% }); %>
+			        </tbody>
+			    </table>
+			</div>
+			<% } %>
+		</div>
+
+		<% include ./modals/addServerModal %>
+		<% include ./modals/addGroupModal %>
+		<% include ./modals/addScriptModal %>
+
+		<% include footer %>
+		<script type="text/javascript">
+		        $(document).ready(function() {
+		            $('#dashboard').addClass("active");
+								$('#inspectbtn').prop('disabled', true);
+		        });
+		</script>
+		<script type="text/javascript">
+		        $(document).ready(function() {
+								$("#executionsTable").tablesorter( {sortList: [[0,1]]} );
+								$("#serversTable").tablesorter( {sortList: [[0,1]]} );
+		        });
+		</script>
+
+	</body>
+</html>

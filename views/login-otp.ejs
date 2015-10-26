@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+	<title>Lineshell - Login OTP</title>
+	<meta name="description" content="Login OTP">
+	<% include header %>
+</head>
+
+<body style="padding-top: 70px;">
+
+	<% include light-navbar %>
+
+<div class="container">
+	<div class="col-sm-6 col-sm-offset-3">
+
+		<h1><span class="fa fa-mobile"></span> 2-Factor Authentication</h1>
+
+		<!-- LOGIN FORM -->
+		<form action="/login-otp" method="post">
+			<div class="form-group">
+				<label>Please enter your token</label>
+				<input type="text" class="form-control" name="code" id="code" placeholder="123456" required="">
+			</div>
+
+			<button type="submit" class="btn btn-warning btn-lg">Login with 2-Factor authentication</button>
+		</form>
+
+		<hr>
+
+		<p>Need an account? <a href="/signup">Signup</a></p>
+		<p>Or go <a href="/">home</a>.</p>
+
+		<div class="text-center">
+
+		</div>
+
+	</div>
+</div>
+<% include footer %>
+<script type="text/javascript">
+						$("#code").focus();
+</script>
+</body>
+</html>

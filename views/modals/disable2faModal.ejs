@@ -1,0 +1,30 @@
+<!-- addServerModal large-->
+	<form action="/disable2fa" method="post">
+		<div class="modal fade" id="disable2faModal" tabindex="-1" role="dialog" aria-labelledby="disable2faModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Are you sure you want to disable 2-Factor Authentication?</h4>
+		      </div>
+		      <div class="modal-body">
+		        <form class="form-horizontal">
+				<fieldset>
+
+				<!-- Text -->
+				  <input id="userId" name="userId" type="hidden" class="form-control-modal input-md" value="<%= user._id %>">
+
+					<p class="text-warning"> This is not recommended as 2-Factor authentication improves the security of your account. If you choose to disable it, you will still be able to reactivate it later.</p>
+
+				</fieldset>
+				</form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		        <button id="buttonSubmit4" type="submit" class="btn btn-warning btn-sm"><span class="fa fa-unlock"></span> Disable 2-Factor Authentication</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</form>
+<!-- end modal -->

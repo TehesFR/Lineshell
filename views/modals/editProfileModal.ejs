@@ -1,0 +1,65 @@
+<!-- addServerModal large-->
+	<form action="/editprofile" method="post">
+		<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Edit profile information</h4>
+		      </div>
+		      <div class="modal-body">
+		        <form class="form-horizontal">
+				<fieldset>
+
+				<div class="form-group">
+					<label class="col-md-4 control-label" for="email">User id</label>
+					<input id="userId" name="userId" type="text" class="form-control-modal input-md" value="<%= user._id %>" readonly="readonly">
+				</div>
+
+				<div class="form-group control-group">
+				  <label class="col-md-4 control-label text-info" for="email">Email</label>
+					<div class="controls">
+				  	<input id="email" name="email" type="email" class="form-control-modal input-md" required="">
+						<p class="help-block"></p>
+					</div>
+				</div>
+
+				<div class="form-group control-group">
+				  <label class="col-md-4 control-label text-success" for="email">New password</label>
+					<div class="controls">
+				  	<input id="newPass" name="newPass" type="password" class="form-control-modal input-md">
+						<p class="help-block"></p>
+					</div>
+				</div>
+
+				<div class="form-group control-group">
+				  <label class="col-md-6 control-label text-success" for="email">Confirm new password</label>
+					<div class="controls">
+				  	<input id="confPass" name="confPass" type="password" data-validation-match-match="newPass" class="form-control-modal input-md">
+						<p class="help-block"></p>
+					</div>
+				</div>
+
+				<div class="form-group control-group">
+				  <label class="col-md-4 control-label text-danger" for="currpwd">Current password</label>
+					<div class="controls">
+				  	<input id="currpwd" name="currpwd" type="password" class="form-control-modal input-md" required="">
+						<p class="help-block"></p>
+					</div>
+				</div>
+
+				</fieldset>
+				</form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		        <button type="submit" class="btn btn-primary">Save</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</form>
+<!-- end modal -->
+<script>
+  $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
+</script>

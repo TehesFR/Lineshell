@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+<head>
+	<title>Lineshell - Servers</title>
+	<meta name="description" content="Servers">
+	<% include header %>
+</head>
+	<body>
+		<% include navbar %>
+
+		<div class="container">
+
+			<h1><span class="fa fa-hdd-o"></span> Servers details <i class="fa fa-question-circle fa-1x" style="color:#eee;" data-trigger="hover" data-placement="bottom" data-toggle="popover" title="Hint!" data-content="Add your servers to one or several groups for a better organization. Don't forget to generate your Lineshell SSH keys in the settings section, and add the public key to your server. Use the server's refresh button to check the SSH connectivity."></i> <button type="button" id="btnadd" class="btn btn-info " data-toggle="modal" data-target="#addServerModal"><span class="fa fa-plus"></span> Add a server</button></h1>
+			<h5>The servers managed in Lineshell.</h5>
+
+			<div class="text-right">
+						<span class="label label-primary">Servers : <%= myServers.length %> of unlimited</span>
+			</div>
+
+			<%if (myServers.length < 1) { %>
+				<p>You need to add a server first.</p>
+			<% } %>
+
+			<%if (myServers.length > 0) { %>
+
+				<%
+					function compareGroups(a,b) {
+						if (a.groupDetails.groupName < b.groupDetails.groupName)
+						return -1;
+						if (a.groupDetails.groupName > b.groupDetails.groupName)
+						return 1;
+						return 0;
+					}
+						myGroups.sort(compareGroups);
+				%>
+
+				<%
+				function compareServers(a,b) {
+					if (a.serverDetails.serverName < b.serverDetails.serverName)
+					return -1;
+					if (a.serverDetails.serverName > b.serverDetails.serverName)
+					return 1;
+					return 0;
+				}
+				myServers.sort(compareServers);
+				%>
+
+				<% myGroups.forEach(function(group, index) { %>
+
+					<% var nbservsingroup = 0; %>
+						<% myServers.forEach(function(server, index) { %>
+							<%
+								var currentGroup = group._id.toString();
+								if (server.serverDetails.serverGroups != undefined){
+									if (server.serverDetails.serverGroups.indexOf(currentGroup) > -1){
+										nbservsingroup++;
+									}
+								}%>
+						<% }); %>
+					<% if (nbservsingroup !=0){ %>
+					<h4 class="text-primary"><%= group.groupDetails.groupName %> <span class="badge"><%= nbservsingroup %></span></h4>
+					<div class="well"><div class="row">
+
+								<% myServers.forEach(function(server, index) { %>
+									<%
+										var currentGroup = group._id.toString();
+										if (server.serverDetails.serverGroups != undefined){
+											var serverGroups = server.serverDetails.serverGroups.toString();
+										}
+										else {var serverGroups="";}
+										if (serverGroups.indexOf(currentGroup) > -1) {
+									%>
+										<div class="col-md-3">
+											<div class="well">
+
+												<button type="button" class="pull-right btn btn-default btn-sm" data-toggle="modal" data-target="#deleteServerModal" data-name-id="<%= server.serverDetails.serverName %>" data-serv-id="<%= server._id %>"><span class="fa fa-times"></span></button>
+												<button type="button" class="pull-right btn btn-default btn-sm" data-toggle="modal" data-target="#editServerModal" data-name-id="<%= server.serverDetails.serverName %>" data-address-id="<%= server.serverDetails.serverAddress %>" data-port-id="<%= server.serverDetails.serverPort %>" data-username-id="<%= server.serverDetails.serverUsername %>" data-tags-id="<%= server.serverDetails.serverTags %>" data-groups-id="<%= server.serverDetails.serverGroups %>" data-serv-id="<%= server._id %>"><span class="fa fa-pencil"></span></button>
+
+												<form action="/refreshstatus" method="post">
+														<input id="serverId" name="serverId" type="hidden" class="form-control input-md" value="<%= server._id %>">
+														<input id="userId" name="userId" type="hidden" class="form-control input-md" value="<%= user._id %>">
+														<input id="serverIp" name="serverIp" type="hidden" class="form-control input-md" value="<%= server.serverDetails.serverAddress %>">
+														<input id="serverPort" name="serverPort" type="hidden" class="form-control input-md" value="<%= server.serverDetails.serverPort %>">
+														<input id="serverUsername" name="serverUsername" type="hidden" class="form-control input-md" value="<%= server.serverDetails.serverUsername %>">
+														<button id="buttonSubmit" name="buttonSubmit" type="submit" class="pull-right btn btn-default btn-sm"><span class="fa fa-refresh"></span></button>
+												</form>
+
+												<p class="text-muted"><h4><b><%= server.serverDetails.serverName %></b></h4></p>
+												<p class="text-primary"><b>ssh <%= server.serverDetails.serverUsername %>@<%= server.serverDetails.serverAddress %> -p <%= server.serverDetails.serverPort %></b></p>
+
+												<% if (server.serverDetails.serverGroups != undefined){
+													var servGroupsArray = server.serverDetails.serverGroups.split(","); %>
+													<% var groupNames = "" %>
+													<% servGroupsArray.forEach(function(groupid, index) { %>
+															<% myGroups.forEach(function(mygroup, index) { %>
+																<% if (mygroup._id == groupid)
+																groupNames = groupNames + "," + mygroup.groupDetails.groupName; %>
+															<% }); %>
+													<% }); %>
+															<% groupNames = groupNames.substring(1);
+												}%>
+
+												<% if (server.serverDetails.serverTags != ""){ %>
+													<p class="label label-warning"><span class="fa fa-tags"> <%= server.serverDetails.serverTags %></span></p>
+												<% } %>
+												<p class="label label-primary"><span class="fa fa-cubes"> <%= groupNames %></span></p><br><p>
+
+
+												<%if (server.serverDetails.sshStatus == false) { %>
+													<p><button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#addSSHModal"><span class="fa fa-exclamation"> <b>SSH not connected</b></span></button></p>
+												<% } %>
+												<%if (server.serverDetails.sshStatus == true) { %>
+														<p><button type="button" class="btn btn-success btn-xs"><span class="fa fa-check"> <b>SSH connected</b></span></button></p>
+												<% } %>
+											</div>
+										</div>
+									<% } %>
+								<% }); %>
+						</div></div> <% } %>
+					<% }); %>
+
+
+					<% var nbsersungrouped =0; %>
+					<% myServers.forEach(function(server, index) {
+						if (server.serverDetails.serverGroups == undefined){
+							nbsersungrouped++;
+						} %>
+					<% }); %>
+
+					<% if (nbsersungrouped !=0){ %>
+						<h4 class="text-primary">Ungrouped <span class="badge"><%= nbsersungrouped %></span></h4></h4>
+
+					<div class="well">
+						<div class="row">
+
+							<%
+								myServers.sort(compareServers);
+							%>
+
+						<% myServers.forEach(function(server, index) {
+
+							if (server.serverDetails.serverGroups == undefined){ %>
+
+								<div class="col-md-3">
+									<div class="well">
+
+										<button type="button" class="pull-right btn btn-default btn-sm" data-toggle="modal" data-target="#deleteServerModal" data-name-id="<%= server.serverDetails.serverName %>" data-serv-id="<%= server._id %>"><span class="fa fa-times"></span></button>
+										<button type="button" class="pull-right btn btn-default btn-sm" data-toggle="modal" data-target="#editServerModal" data-name-id="<%= server.serverDetails.serverName %>" data-address-id="<%= server.serverDetails.serverAddress %>" data-port-id="<%= server.serverDetails.serverPort %>" data-username-id="<%= server.serverDetails.serverUsername %>" data-tags-id="<%= server.serverDetails.serverTags %>" data-groups-id="<%= server.serverDetails.serverGroups %>" data-serv-id="<%= server._id %>"><span class="fa fa-pencil"></span></button>
+
+										<form action="/refreshstatus" method="post">
+											<input id="serverId" name="serverId" type="hidden" class="form-control input-md" value="<%= server._id %>">
+											<input id="userId" name="userId" type="hidden" class="form-control input-md" value="<%= user._id %>">
+											<input id="serverIp" name="serverIp" type="hidden" class="form-control input-md" value="<%= server.serverDetails.serverAddress %>">
+											<input id="serverPort" name="serverPort" type="hidden" class="form-control input-md" value="<%= server.serverDetails.serverPort %>">
+											<input id="serverUsername" name="serverUsername" type="hidden" class="form-control input-md" value="<%= server.serverDetails.serverUsername %>">
+											<button id="buttonSubmit" name="buttonSubmit" type="submit" class="pull-right btn btn-default btn-sm"><span class="fa fa-refresh"></span></button>
+										</form>
+
+										<p class="text-muted"><h4><b><%= server.serverDetails.serverName %></b></h4></p>
+
+										<p class="text-primary"><b>ssh <%= server.serverDetails.serverUsername %>@<%= server.serverDetails.serverAddress %> -p <%= server.serverDetails.serverPort %></b></p>
+
+										<% if (server.serverDetails.serverGroups != undefined){
+											var servGroupsArray = server.serverDetails.serverGroups.split(","); %>
+											<% var groupNames = "" %>
+											<% servGroupsArray.forEach(function(groupid, index) { %>
+												<% myGroups.forEach(function(mygroup, index) { %>
+													<% if (mygroup._id == groupid)
+													groupNames = groupNames + "," + mygroup.groupDetails.groupName; %>
+													<% }); %>
+													<% }); %>
+													<% groupNames = groupNames.substring(1);
+												}%>
+
+												<% if (server.serverDetails.serverTags != ""){ %>
+													<p class="label label-warning"><span class="fa fa-tags"> <%= server.serverDetails.serverTags %></span></p><br><p>
+												<% } %>
+
+
+												<%if (server.serverDetails.sshStatus == false) { %>
+													<p><button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#addSSHModal"><span class="fa fa-exclamation"> <b>SSH not connected</b></span></button></p>
+													<% } %>
+													<%if (server.serverDetails.sshStatus == true) { %>
+														<p><button type="button" class="btn btn-success btn-xs"><span class="fa fa-check"> <b>SSH connected</b></span></button></p>
+														<% } %>
+													</div>
+												</div>
+							<% } %>
+						<% }); %>
+						</div>
+					</div>
+					<% } %>
+			<% } %>
+
+		</div>
+
+		<% include ./modals/addServerModal %>
+		<% include ./modals/editServerModal %>
+		<% include ./modals/deleteServerModal %>
+		<% include ./modals/addSSHModal %>
+
+		<% include footer %>
+		<script type="text/javascript">
+		        $(document).ready(function() {
+		            $('#serversmenu').addClass("active");
+								$('[data-toggle="popover"]').popover();
+		        });
+		</script>
+		<script type="text/javascript">
+		        //triggered when modal is about to be shown
+				$('#editServerModal').on('show.bs.modal', function(e) {
+
+				    //get data-id attribute of the clicked element
+					var servName        = $(e.relatedTarget).data('name-id');
+					var servAddress     = $(e.relatedTarget).data('address-id');
+					var servPort        = $(e.relatedTarget).data('port-id');
+					var servUsername    = $(e.relatedTarget).data('username-id');
+					var servTags        = $(e.relatedTarget).data('tags-id');
+					var servGroups      = $(e.relatedTarget).data('groups-id');
+					var servGroupsArray = servGroups.split(",");
+				  var servId          = $(e.relatedTarget).data('serv-id');
+				    //alert(servTags);
+				    //alert(servGroups);
+
+				    //populate the textbox
+				    $(e.currentTarget).find('input[name="serverName"]').val(servName);
+				    $(e.currentTarget).find('input[name="serverIp"]').val(servAddress);
+				    $(e.currentTarget).find('input[name="serverPort"]').val(servPort);
+				    $(e.currentTarget).find('input[name="serverUser"]').val(servUsername);
+				    $(e.currentTarget).find('input[name="serverTag"]').val(servTags);
+				    $(e.currentTarget).find('#serverGroup option:selected').removeAttr("selected"); // clear the modal
+
+				    servGroupsArray.forEach(function(s) {
+					    $(e.currentTarget).find('#serverGroup option[value="'+s+'"]').attr("selected", "selected");
+					    //console.log(s);
+					});
+					$(e.currentTarget).find('input[name="serverId"]').val(servId);
+				});
+
+		</script>
+		<script type="text/javascript">
+		        //triggered when modal is about to be shown
+				$('#deleteServerModal').on('show.bs.modal', function(e) {
+
+				    //get data-id attribute of the clicked element
+						var servName        = $(e.relatedTarget).data('name-id');
+				    var servId          = $(e.relatedTarget).data('serv-id');
+				    //alert(servTags);
+				    //alert(servGroups);
+
+				    //populate the textbox
+				    $(e.currentTarget).find('input[name="serverName"]').val(servName);
+					$(e.currentTarget).find('input[name="serverId"]').val(servId);
+				});
+
+		</script>
+	</body>
+</html>

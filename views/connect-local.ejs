@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+	<title>Lineshell - Connect local account</title>
+	<meta name="description" content="Connect local">
+	<% include header %>
+</head>
+<body>
+<div class="container">
+<div class="col-sm-6 col-sm-offset-3">
+
+	<h1><span class="fa fa-user"></span> Add Local Account</h1>
+
+	<% if (message.length > 0) { %>
+		<div class="alert alert-danger"><%= message %></div>
+	<% } %>
+
+	<!-- LOGIN FORM -->
+	<form action="/connect/local-add" method="post">
+		<div class="form-group control-group">
+			<label>Email</label>
+			<div class="controls">
+				<input type="email" class="form-control" name="email" required="">
+				<p class="help-block"></p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label>Password</label>
+			<input type="password" class="form-control" name="password" required="">
+		</div>
+		<div class="form-group">
+			<label>Country</label>
+    		<select name="country" class="form-control bfh-countries" data-country="US"></select>
+    	</div>
+
+			<div class="g-recaptcha" data-sitekey="6LeIFAkTAAAAAMM9sVsHDnEyo38K1QBclOKaFZwm"></div>
+			<br/>
+
+		<button type="submit" class="btn btn-warning btn-lg">Link this account</button>
+	</form>
+
+	<hr>
+
+	<p><a href="/profile">Go back to profile</a></p>
+
+	<div class="text-center">
+
+	</div>
+
+</div>
+</div>
+<script>
+	$(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); } );
+</script>
+</body>
+</html>

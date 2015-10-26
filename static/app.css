@@ -1,0 +1,361 @@
+.cc-selector input{
+    margin:0;padding:0;
+    -webkit-appearance:none;
+       -moz-appearance:none;
+            appearance:none;
+}
+
+.cc-selector-2 input{
+    position:absolute;
+    z-index:999;
+}
+
+.servers{background-image:url(/static/servers.png);}
+.groups{background-image:url(/static/groups.png);}
+
+.cc-selector-2 input:active +.drinkcard-cc, .cc-selector input:active +.drinkcard-cc{opacity: .9;}
+.cc-selector-2 input:checked +.drinkcard-cc, .cc-selector input:checked +.drinkcard-cc{
+    -webkit-filter: none;
+       -moz-filter: none;
+            filter: none;
+}
+.drinkcard-cc{
+    cursor:pointer;
+    background-size:contain;
+    background-repeat:no-repeat;
+    display:inline-block;
+    width:100px;height:70px;
+    -webkit-transition: all 100ms ease-in;
+       -moz-transition: all 100ms ease-in;
+            transition: all 100ms ease-in;
+    -webkit-filter: brightness(1.8) grayscale(1) opacity(.1);
+       -moz-filter: brightness(1.8) grayscale(1) opacity(.1);
+            filter: brightness(1.8) grayscale(1) opacity(.1);
+}
+.drinkcard-cc:hover{
+    -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+       -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+            filter: brightness(1.2) grayscale(.5) opacity(.9);
+}
+
+
+/* pricing FAQ articles */
+.pricing-faq article {
+    margin-bottom: 25px;
+}
+
+.pricing-faq article h3 {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+.pricing-faq article p {
+    color: #666666;
+}
+
+/* pricing page */
+.mypanel
+{
+    text-align: center;
+    border-style: solid;
+    border-width: 3px;
+}
+.mypanel:hover { box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4), 0 1px 5px rgba(130, 130, 130, 0.35); }
+.mypanel-body
+{
+    padding: 0px;
+    text-align: center;
+}
+.mypanel-warning { box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4), 0 1px 5px rgba(130, 130, 130, 0.35); }
+
+.the-price
+{
+    background-color: rgba(220,220,220,.17);
+    box-shadow: 0 1px 0 #dcdcdc, inset 0 1px 0 #fff;
+    padding: 20px;
+    margin: 0;
+}
+
+.the-price h1
+{
+    line-height: 1em;
+    padding: 0;
+    margin: 0;
+}
+
+.subscript
+{
+    font-size: 25px;
+}
+
+/* CSS-only ribbon styles    */
+.cnrflash
+{
+    /*Position correctly within container*/
+    position: absolute;
+    top: -9px;
+    right: 4px;
+    z-index: 1; /*Set overflow to hidden, to mask inner square*/
+    overflow: hidden; /*Set size and add subtle rounding  		to soften edges*/
+    width: 100px;
+    height: 100px;
+    border-radius: 3px 5px 3px 0;
+}
+.cnrflash-inner
+{
+    /*Set position, make larger then 			container and rotate 45 degrees*/
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 145px;
+    height: 145px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -o-transform: rotate(45deg); /* Opera */
+    -moz-transform: rotate(45deg); /* Firefox */
+    -webkit-transform: rotate(45deg); /* Safari and Chrome */
+    -webkit-transform-origin: 100% 100%; /*Purely decorative effects to add texture and stuff*/ /* Safari and Chrome */
+    -ms-transform-origin: 100% 100%;  /* IE 9 */
+    -o-transform-origin: 100% 100%; /* Opera */
+    -moz-transform-origin: 100% 100%; /* Firefox */
+    background-image: linear-gradient(90deg, transparent 50%, rgba(255,255,255,.1) 50%), linear-gradient(0deg, transparent 0%, rgba(1,1,1,.2) 50%);
+    background-size: 4px,auto, auto,auto;
+    background-color: #aa0101;
+    box-shadow: 0 3px 3px 0 rgba(1,1,1,.5), 0 1px 0 0 rgba(1,1,1,.5), inset 0 -1px 8px 0 rgba(255,255,255,.3), inset 0 -1px 0 0 rgba(255,255,255,.2);
+}
+.cnrflash-inner:before, .cnrflash-inner:after
+{
+    /*Use the border triangle trick to make  				it look like the ribbon wraps round it's 				container*/
+    content: " ";
+    display: block;
+    position: absolute;
+    bottom: -16px;
+    width: 0;
+    height: 0;
+    border: 8px solid #800000;
+}
+.cnrflash-inner:before
+{
+    left: 1px;
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+}
+.cnrflash-inner:after
+{
+    right: 0;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+}
+.cnrflash-label
+{
+    /*Make the label look nice*/
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    padding-bottom: 5px;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(1,1,1,.8);
+    font-size: 0.95em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.my-center {
+     padding-left: auto;
+}
+
+.form-control-modal{
+  display:inline;
+  width:100%;
+  height:34px;
+  padding:6px 12px;
+  font-size:14px;
+  line-height:1.42857143;
+  color:#555;
+  background-color:#fff;
+  background-image:none;
+  border:1px solid #ccc;
+  border-radius:4px;
+  -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+  box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+  -webkit-transition:border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+  -o-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.form-control-modal[disabled],.form-control-modal[readonly],fieldset[disabled] .form-control-modal{
+  cursor:not-allowed;
+  background-color:#eee;
+  opacity:1
+}
+
+.container{
+  width:auto;
+  padding: 0 25px 25px 25px;
+  margin: 0px;
+}
+
+.well{
+  padding: 10 19px 10px 19px;
+}
+
+.big-title h1 {
+    padding: 12px 10px 10px;
+    color: #566473;
+    font-size: 44px;
+    line-height: 50px;
+    margin: 0 auto 10px;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: none;
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+    border-bottom:solid 4px;
+    border-bottom-color: #EEEEEE;
+    letter-spacing: 2px;
+}
+
+.big-title-colored h1 {
+    padding: 12px 10px 10px;
+    color: #E0E0E0;
+    font-size: 44px;
+    line-height: 50px;
+    margin: 0 auto 10px;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: none;
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+    border-bottom:solid 4px;
+    border-bottom-color: #eee;
+    letter-spacing: 2px;
+}
+
+.big-title h3 {
+    font-size: 22px;
+    line-height: 28px;
+    margin: 0 auto 70px;
+    max-width: 900px;
+    text-transform: none;
+    color: #d9534f;
+}
+
+.big-title-colored h3 {
+    font-size: 22px;
+    line-height: 28px;
+    margin: 0 auto 70px;
+    max-width: 900px;
+    text-transform: none;
+    color: #d9534f;
+}
+
+.why p strong {
+    color: #d9534f;
+}
+
+.features p strong {
+    color: #d9534f;
+}
+.features p b {
+    color: #566473;
+}
+
+#fa-home{
+  color:#428bca;
+}
+
+.home-login-panel{
+  background-color:#F1F4F9;
+  /*opacity:1;*/
+  /*border-radius:6px;*/
+}
+
+.why{
+  /*background-color:#eee;*/
+  opacity:1;
+  background-color:#134a6a;
+  background-repeat: no-repeat, repeat;
+  background-position: -0px -1410px;
+  color: #FFFFFF;
+  }
+
+.features{
+  /*background-color:#5cb85c;*/
+  opacity:1;
+  /*background-color:#F1F4F9;*/
+  background-color:#F1F4F9;
+
+}
+
+.faq a:link{
+  color:#573E7D;
+}
+
+/* Prevents slides from flashing */
+#slides {
+      display: none
+    }
+
+    #slides .slidesjs-navigation {
+      margin-top:3px;
+    }
+
+    #slides .slidesjs-previous {
+      margin-right: 5px;
+      float: left;
+    }
+
+    #slides .slidesjs-next {
+      margin-right: 5px;
+      float: left;
+    }
+
+    .slidesjs-pagination {
+      margin: 6px 0 0;
+      float: right;
+      list-style: none;
+    }
+
+    .slidesjs-pagination li {
+      float: left;
+      margin: 0 1px;
+    }
+
+    .slidesjs-pagination li a {
+      display: block;
+      width: 13px;
+      height: 0;
+      padding-top: 13px;
+      background-image: url(/static/pagination.png);
+      background-position: 0 0;
+      float: left;
+      overflow: hidden;
+    }
+
+    .slidesjs-pagination li a.active,
+    .slidesjs-pagination li a:hover.active {
+      background-position: 0 -13px
+    }
+
+    .slidesjs-pagination li a:hover {
+      background-position: 0 -26px
+    }
+
+    #slides a:link,
+    #slides a:visited {
+      color: #333
+    }
+
+    #slides a:hover,
+    #slides a:active {
+      color: #9e2020
+    }
+
+    .home-login-panel img{
+      max-width: 100%;
+      height: auto;
+    }

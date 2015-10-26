@@ -1,0 +1,120 @@
+<!-- addServerModal large-->
+	<form action="/newserv" method="post">
+		<div class="modal fade" id="addServerModal" tabindex="-1" role="dialog" aria-labelledby="addServerModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Add a new server</h4>
+		      </div>
+		      <div class="modal-body">
+		        <form class="form-horizontal">
+				<fieldset>
+
+				<!-- Text -->
+				  <input id="userId" name="userId" type="hidden" class="form-control-modal input-md" value="<%= user._id %>">
+
+				<!-- Text input-->
+				<div class="form-group">
+				  <label class="col-md-4 control-label" for="serverName">Server name</label>
+				  <!-- <div class="col-md-4"> -->
+				  <input id="serverName" name="serverName" type="text" placeholder="my server" class="form-control-modal input-md" required="">
+				  <span class="help-block"><i>The name of your server. Should be unique.</i></span>
+				  <!-- </div> -->
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+				  <label class="col-md-4 control-label" for="serverIp">Server address</label>
+					<!--<div class="controls">-->
+					  <input id="serverIp" name="serverIp" type="text" placeholder="IP address or FQDN" class="form-control-modal input-md" required="" >
+					  <span class="help-block"><i>A fully qualified hostname or ip address.</i></span>
+				  <!--</div>-->
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group control-group">
+				  <label class="col-md-4 control-label" for="serverPort">SSH port</label>
+					<div class="controls">
+					  <input id="serverPort" name="serverPort" type="number" placeholder="22" class="form-control-modal input-md" required="">
+						<p class="help-block"></p>
+					  <span class="help-block"><i>The port that SSH listens on.</i></span>
+				  </div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+				  <label class="col-md-4 control-label" for="serverUser">SSH username</label>
+				  <!-- <div class="col-md-4"> -->
+				  <input id="serverUser" name="serverUser" type="text" placeholder="admin" class="form-control-modal input-md" required="">
+				  <span class="help-block"><i>The username that we connect with. We recommend using sudo privileges.</i></span>
+				  <!-- </div> -->
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+				  <label class="col-md-4 control-label" for="serverTag">Server tags</label>
+				  <!-- <div class="col-md-4"> -->
+				  <input id="serverTag" name="serverTag" type="text" placeholder="use , or enter to confirm tag" class="form-control-modal input-md" data-role="tagsinput">
+				  <span class="help-block"><i>A list of attributes to assign to the server. Examples include datacenter, rack, hardware specifications, or manufacture.</i></span>
+				  <!-- </div> -->
+				</div>
+
+				<!-- Select Multiple -->
+				<div class="form-group">
+				  <label class="col-md-4 control-label" for="serverGroup">Server group(s)</label>
+				  <span class="help-block"><i>You can add groups in the Groups section.</i></span>
+				  <!-- <div class="col-md-4"> -->
+				    <select id="serverGroup" name="serverGroup" class="form-control-modal" multiple="multiple">
+				      <% myGroups.forEach(function(mygroups, index) { %>
+				      <option value="<%= mygroups._id %>"><%= mygroups.groupDetails.groupName %></option>
+				      <% }); %>
+				    </select>
+				  <!-- </div> -->
+				</div>
+
+				<!-- Button -->
+				<div class="form-group">
+				  <label class="col-md-4 control-label" for="ServerAddGroup"></label>
+				  <!-- <div class="col-md-4"> -->
+				    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addGroupModal"><span class="fa fa-plus"></span> Add a group to your list</button> -->
+				  <!-- </div> -->
+				</div>
+				</fieldset>
+				</form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		        <button type="submit" class="btn btn-primary">Add this server</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</form>
+<!-- end modal -->
+<script type="text/javascript">
+$('#addServerModal').on('shown.bs.modal', function() {
+	$(this).find('#serverName').focus();
+});
+</script>
+<script type="text/javascript">
+//sort select list
+var options = $('select.form-control option');
+var arr = options.map(function(_, o) {
+	return {
+		t: $(o).text(),
+		v: o.value
+	};
+}).get();
+arr.sort(function(o1, o2) {
+	return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
+});
+options.each(function(i, o) {
+	//console.log(i);
+	o.value = arr[i].v;
+	$(o).text(arr[i].t);
+});
+</script>
+<script>
+	$(function () { $("number").not("[type=submit]").jqBootstrapValidation(); } );
+</script>
