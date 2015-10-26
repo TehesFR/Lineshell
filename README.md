@@ -8,7 +8,19 @@ This container will pulled sources from the master branch of this repository.
 
 ============================
 
-![lineshell-logo](https://cloud.githubusercontent.com/assets/5724684/10738350/55a3ac8a-7c17-11e5-9712-e419bec8119c.png)
+## Features
+
+  * *Accounts*
+  * *Servers, Groups, Scripts management*
+  * *Dashboard page*
+  * *Arguments in scripts*
+  * *Asynchronous executions on multiple servers*
+  * *Executions details, including time, stdout, stderr*
+  * *Rerun past executions in just one click*
+  * *4096 bits SSH keys management*
+  * *Timezones settings*
+  * *Two-factor authentication with Google Authenticator*
+  * *More features to come...*
 
 ## Dashboard section with a complete overview
 ![dashboard](https://cloud.githubusercontent.com/assets/5724684/10742517/ea942bba-7c2d-11e5-8d17-e57e8070fe90.png)
