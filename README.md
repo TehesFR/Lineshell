@@ -7,4 +7,4 @@ This container will pulled sources from the master branch of this repository.
 
 ============================
 
-![Lineshell](https://www.lineshell.io/static/lineshell-logo.png "Lineshell")
+![lineshell-logo](https://cloud.githubusercontent.com/assets/5724684/10738350/55a3ac8a-7c17-11e5-9712-e419bec8119c.png)
