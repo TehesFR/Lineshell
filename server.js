@@ -21,10 +21,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
-var async        = require('async'); // doesn't seem to work here...
+var async        = require('async');
 
 var configDB     = require('./config/database.js');
-var moment       = require('moment-timezone'); // doesn't seem to work here...
+var moment       = require('moment-timezone');
 var timeout      = require('connect-timeout');
 var helmet       = require('helmet');
 
