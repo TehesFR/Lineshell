@@ -2,16 +2,17 @@
 
 # Lineshell [![Build Status](https://travis-ci.org/TehesFR/Lineshell.svg?branch=master)](https://travis-ci.org/TehesFR/Lineshell)
 
-Lineshell is an open source project to manage servers and execute scripts on them, keeping a complete history of all executions results. 
-It is based on Node.js and Mongodb. 
+Lineshell is an open source project to manage servers and execute scripts on them, keeping a complete history of all executions results.
+It is based on Node.js and Mongodb.
 
-You can use the Lineshell Docker container, packed with everything you need, at https://hub.docker.com/r/tehes/lineshell/ 
+You can use the Lineshell Docker container, packed with everything you need, at https://hub.docker.com/r/tehes/lineshell/
 This container will pulled sources from the master branch of this repository.
 
 ============================
 
 ## Features
 
+  * *Install on your server using Docker*
   * *Accounts*
   * *Servers, Groups, Scripts management*
   * *Dashboard page*
