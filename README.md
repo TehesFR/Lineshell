@@ -5,7 +5,7 @@
 Lineshell is an open source project to manage servers and execute scripts on them, keeping a complete history of all executions results.
 It is based on Node.js and Mongodb.
 
-You can use the Lineshell Docker container, packed with everything you need, at https://hub.docker.com/r/tehes/lineshell/
+You can use the Lineshell Docker container, packed with everything you need, at https://hub.docker.com/r/tehes/lineshell-docker/
 This container will pulled sources from the master branch of this repository.
 
 ============================
