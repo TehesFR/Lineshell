@@ -35,7 +35,7 @@ docker run -it -d --name lineshell -p 8080:8080 -e MONGODB_USERNAME=lineshell_us
 ## Dashboard section with a complete overview
 ![dashboard](https://cloud.githubusercontent.com/assets/5724684/10742517/ea942bba-7c2d-11e5-8d17-e57e8070fe90.png)
 
-## Connect to your servers using SSH and organize them into groups
+## Connect to your servers using SSH keys, and organize them into groups
 ![servers](https://cloud.githubusercontent.com/assets/5724684/10742518/ea95f60c-7c2d-11e5-8bbf-6b3f2e2d1022.png)
 
 ## Create shell scripts, with or without arguments
