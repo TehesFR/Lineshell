@@ -8,6 +8,12 @@ It is based on Node.js and Mongodb.
 You can use the Lineshell Docker container, packed with everything you need, at https://hub.docker.com/r/tehes/lineshell-docker/
 This container will pulled sources from the master branch of this repository.
 
+![Docker L](https://raw.githubusercontent.com/docker/docker/master/docs/static_files/docker-logo-compressed.png "Docker")
+
+```bash
+docker run -it -d --name lineshell -p 8080:8080 -e MONGODB_USERNAME=lineshell_user -e MONGODB_PASSWORD=lineshell_pass -e MONGODB_DBNAME=admin tehes/lineshell-docker
+```
+
 ============================
 
 ## Features
