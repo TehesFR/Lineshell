@@ -794,7 +794,7 @@ app.post('/verif2fa', isLoggedIn, passport.authenticate('totp', { failureRedirec
 	    var Group  = require('../app/models/group'); //adding mongoose Schema
 	    var Script = require('../app/models/script');
 			var Execution = require('../app/models/execution');
-			var Message = require('../app/models/message');
+
 	    async.parallel({
 	       servers: function(callback){
 	           Server.find({"serverDetails.userId" : req.user._id}).sort({"serverDetails.created_at": 'desc'}).limit(5).exec(callback);
@@ -810,10 +810,7 @@ app.post('/verif2fa', isLoggedIn, passport.authenticate('totp', { failureRedirec
 				},
 	       nbscripts: function(callback){
 	           Script.count({"scriptDetails.userId" : req.user._id}).exec(callback);
-	       },
-				msg: function(callback){
-						Message.findOne({"msgDetails.selector" : 700}).exec(callback);
-				}
+	       }
 	    }, function(err, results) {
 				if (err){
 						console.log(err);
@@ -827,7 +824,6 @@ app.post('/verif2fa', isLoggedIn, passport.authenticate('totp', { failureRedirec
 				 var moment    = require('moment-timezone');
 			 	 var timezone  = req.user.settings.timezone;
 				 var nbservs = results.nbservs;
-				 var msg = results.msg;
 
 	       res.render('dashboard.ejs', {
 	            user : req.user,
@@ -837,8 +833,7 @@ app.post('/verif2fa', isLoggedIn, passport.authenticate('totp', { failureRedirec
 							myExecutions : myExecutions,
 							moment : moment,
 							timezone : timezone,
-							nbservs : nbservs,
-							msg : msg
+							nbservs : nbservs
 	        });
 	    });
 	});
