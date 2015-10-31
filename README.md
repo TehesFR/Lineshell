@@ -18,17 +18,18 @@ docker run -it -d --name lineshell -p 8080:8080 -e MONGODB_USERNAME=lineshell_us
 
 ## Features
 
-  * *Install on your server using Docker*
-  * *Accounts*
-  * *Servers, Groups, Scripts management*
+  * *Easy install on your server using Docker*
+  * *Create multiple accounts*
   * *Dashboard page*
-  * *Arguments in scripts*
+  * *Servers, Groups, and Scripts management pages*
+  * *Use arguments in scripts*
   * *Asynchronous executions on multiple servers*
-  * *Executions details, including time, stdout, stderr*
+  * *Executions details, including duration, stdout, stderr*
   * *Rerun past executions in just one click*
-  * *4096 bits SSH keys management*
+  * *History of all executions*
   * *Timezones settings*
   * *Two-factor authentication with Google Authenticator*
+  * *4096 bits SSH keys*
   * *More features to come...*
 
 ## Dashboard section with a complete overview
@@ -40,5 +41,5 @@ docker run -it -d --name lineshell -p 8080:8080 -e MONGODB_USERNAME=lineshell_us
 ## Create shell scripts, with or without arguments
 ![scripts](https://cloud.githubusercontent.com/assets/5724684/10742519/ea988d4a-7c2d-11e5-805e-727948c08614.png)
 
-## Execute scrips, on individual server or group of servers
+## Execute scripts on individual server or group of servers, and visualize results
 ![exec](https://cloud.githubusercontent.com/assets/5724684/10742516/ea9290b6-7c2d-11e5-9815-395df8f30b89.png)
