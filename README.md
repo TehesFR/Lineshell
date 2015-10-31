@@ -43,3 +43,7 @@ docker run -it -d --name lineshell -p 8080:8080 -e MONGODB_USERNAME=lineshell_us
 
 ## Execute scripts on individual server or group of servers, and visualize results for each server
 ![exec](https://cloud.githubusercontent.com/assets/5724684/10742516/ea9290b6-7c2d-11e5-9815-395df8f30b89.png)
+
+# License
+
+See the [LICENSE](LICENSE.md) file for license rights and limitations (MIT).
