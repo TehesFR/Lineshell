@@ -1,5 +1,3 @@
-** Not yet ready for use **
-
 # Lineshell [![Build Status](https://travis-ci.org/TehesFR/Lineshell.svg?branch=master)](https://travis-ci.org/TehesFR/Lineshell)
 
 Lineshell is an open source project to manage servers and execute scripts on them, keeping a complete history of all executions results.
