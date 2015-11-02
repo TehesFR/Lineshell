@@ -7,9 +7,16 @@ You can use the Lineshell Docker container, packed with everything you need, at 
 This container will pulled sources from the master branch of this repository.
 
 ![Docker L](https://raw.githubusercontent.com/docker/docker/master/docs/static_files/docker-logo-compressed.png "Docker")
-
 ```bash
 docker run -it -d --name lineshell -p 8080:8080 -e MONGODB_USERNAME=lineshell_user -e MONGODB_PASSWORD=lineshell_pass -e MONGODB_DBNAME=admin tehes/lineshell-docker
+```
+
+#### To update your running container with the latest sources from Github
+```bash
+docker exec -it lineshell bash
+git pull origin master
+exit
+docker restart lineshell (not needed if only .ejs files were changed)
 ```
 
 ============================
